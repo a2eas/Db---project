@@ -96,40 +96,69 @@ def display_full_details(details, title):
 
     col1, col2 = st.columns(2)
 
+    # PostgreSQL returns all column names in lowercase
     with col1:
         st.markdown("**Personal Information**")
-        for field in ["CitizenID", "NationalID", "FirstName", "LastName",
-                      "Gender", "DateOfBirth", "PlaceOfBirth", "BloodType",
-                      "Religion", "MaritalStatus", "Occupation",
-                      "PhoneNumber", "Email"]:
-            if details.get(field) is not None:
-                st.write(f"{field}: {details[field]}")
+        for db_key, label in [
+            ("citizenid",     "Citizen ID"),
+            ("nationalid",    "National ID"),
+            ("firstname",     "First Name"),
+            ("lastname",      "Last Name"),
+            ("gender",        "Gender"),
+            ("dateofbirth",   "Date of Birth"),
+            ("placeofbirth",  "Place of Birth"),
+            ("bloodtype",     "Blood Type"),
+            ("religion",      "Religion"),
+            ("maritalstatus", "Marital Status"),
+            ("occupation",    "Occupation"),
+            ("phonenumber",   "Phone Number"),
+            ("email",         "Email"),
+        ]:
+            if details.get(db_key) is not None:
+                st.write(f"{label}: {details[db_key]}")
 
         st.markdown("**Address**")
-        for field in ["Governorate", "City", "District",
-                      "Street", "BuildingNumber", "PostalCode"]:
-            if details.get(field) is not None:
-                st.write(f"{field}: {details[field]}")
+        for db_key, label in [
+            ("governorate",    "Governorate"),
+            ("city",           "City"),
+            ("district",       "District"),
+            ("street",         "Street"),
+            ("buildingnumber", "Building Number"),
+            ("postalcode",     "Postal Code"),
+        ]:
+            if details.get(db_key) is not None:
+                st.write(f"{label}: {details[db_key]}")
 
     with col2:
         st.markdown("**National ID Card**")
-        for field in ["CardID", "IssueDate", "ExpiryDate", "CardStatus"]:
-            if details.get(field) is not None:
-                st.write(f"{field}: {details[field]}")
+        for db_key, label in [
+            ("cardid",     "Card ID"),
+            ("issuedate",  "Issue Date"),
+            ("expirydate", "Expiry Date"),
+            ("cardstatus", "Card Status"),
+        ]:
+            if details.get(db_key) is not None:
+                st.write(f"{label}: {details[db_key]}")
 
         st.markdown("**Birth Record**")
-        for field in ["BirthRecordID", "RegistrationDate",
-                      "HospitalName", "DoctorName", "FatherID", "MotherID"]:
-            if details.get(field) is not None:
-                st.write(f"{field}: {details[field]}")
+        for db_key, label in [
+            ("birthrecordid",    "Birth Record ID"),
+            ("registrationdate", "Registration Date"),
+            ("hospitalname",     "Hospital Name"),
+            ("doctorname",       "Doctor Name"),
+            ("fatherid",         "Father Citizen ID"),
+            ("motherid",         "Mother Citizen ID"),
+        ]:
+            if details.get(db_key) is not None:
+                st.write(f"{label}: {details[db_key]}")
 
         st.markdown("**Death Record**")
         if details.get("DeathRecord"):
             d = details["DeathRecord"]
-            st.write(f"Death Date: {d.get('DeathDate')}")
-            st.write(f"Cause: {d.get('CauseOfDeath')}")
-            st.write(f"Place: {d.get('PlaceOfDeath')}")
-            st.write(f"Certificate No: {d.get('CertificateNo')}")
+            st.write(f"Death Date: {d.get('deathdate')}")
+            st.write(f"Cause: {d.get('causeofdeath')}")
+            st.write(f"Place: {d.get('placeofdeath')}")
+            st.write(f"Certificate No: {d.get('certificateno')}")
         else:
             st.write("No death record.")
 
@@ -137,27 +166,27 @@ def display_full_details(details, title):
         memberships = details.get("FamilyMemberships")
         if memberships:
             for fam in memberships:
-                st.write(f"Family: {fam['FamilyName']} | "
-                         f"Role: {fam['Relationship']} | "
-                         f"Head CitizenID: {fam['HeadCitizenID']}")
+                st.write(f"Family: {fam['familyname']} | "
+                         f"Role: {fam['relationship']} | "
+                         f"Head CitizenID: {fam['headcitizenid']}")
         else:
             st.write("Not assigned to any family.")
 
         st.markdown("**Marriage**")
         if details.get("MarriageAsHusband"):
             m = details["MarriageAsHusband"]
-            st.write(f"MarriageID: {m['MarriageID']}")
-            st.write(f"WifeID: {m['WifeID']}")
-            st.write(f"Marriage Date: {m['MarriageDate']}")
-            st.write(f"Location: {m['MarriageLocation']}")
-            st.write(f"Certificate No: {m['CertificateNo']}")
+            st.write(f"Marriage ID: {m['marriageid']}")
+            st.write(f"Wife Citizen ID: {m['wifeid']}")
+            st.write(f"Marriage Date: {m['marriagedate']}")
+            st.write(f"Location: {m['marriagelocation']}")
+            st.write(f"Certificate No: {m['certificateno']}")
         elif details.get("MarriageAsWife"):
             m = details["MarriageAsWife"]
-            st.write(f"MarriageID: {m['MarriageID']}")
-            st.write(f"HusbandID: {m['HusbandID']}")
-            st.write(f"Marriage Date: {m['MarriageDate']}")
-            st.write(f"Location: {m['MarriageLocation']}")
-            st.write(f"Certificate No: {m['CertificateNo']}")
+            st.write(f"Marriage ID: {m['marriageid']}")
+            st.write(f"Husband Citizen ID: {m['husbandid']}")
+            st.write(f"Marriage Date: {m['marriagedate']}")
+            st.write(f"Location: {m['marriagelocation']}")
+            st.write(f"Certificate No: {m['certificateno']}")
         else:
             st.write("No marriage record found.")
 
